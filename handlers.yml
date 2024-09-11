@@ -15,14 +15,15 @@
       copy:
         src: /home/ec2-user/research/index.html
         dest: /var/www/html
-    - name: Ensure the default Apache port is 8080
+    - name: Ensure the default Apache port is 9090
       lineinfile:
         path: /etc/httpd/conf/httpd.conf
         regexp: '^Listen '
         insertafter: '^#Listen '
-        line: Listen 8080
+        line: Listen 9090
+      notify: ReStart the apache
+  handlers:    
     - name: ReStart the apache
       service:
         name: httpd
         state: restarted 
-        
