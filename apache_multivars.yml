@@ -1,0 +1,35 @@
+- name: apache task
+  hosts: web
+  become: yes
+  
+  vars:
+    apache_port: 8080  
+    source_path: /home/ec2-user/research/index.html
+    dest_path: /var/www/html
+
+  tasks:
+    - name: Installing apache
+      dnf:
+        name: httpd
+        state: present
+    - name: Start the apache
+      service:
+        name: httpd
+        state: started
+    - name: Deploy the static page in apache
+      copy:
+        src: "{{ source_path }}"
+        dest: "{{ dest_path }}"
+    - name: Ensure the default Apache port is "{{ apache_port }}"
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen '
+        insertafter: '^#Listen '
+        line: "Listen {{ apache_port }}"
+      notify: ReStart the apache
+  handlers:
+    - name: ReStart the apache
+      service:
+        name: httpd
+        state: restarted
+
