@@ -1,0 +1,24 @@
+- name: apache task
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Installing apache using loop
+      dnf:
+        name: "{{ item }}"
+        state: present
+      when: ansible_facts.distribution_major_version == "2023"
+      loop:
+        - httpd
+        - git
+        - zip
+    - name: Installing apache using loop
+      yum:
+        name: "{{ item }}"
+        state: present
+      when: ansible_facts.distribution_major_version == "2"
+      loop:
+        - httpd
+        - git
+        - zip
+

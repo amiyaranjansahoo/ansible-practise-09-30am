@@ -1,0 +1,7 @@
+- name: command module
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Understanding the command module
+      command: uptime

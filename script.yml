@@ -1,0 +1,7 @@
+- name: script module
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Understanding the script module
+      script: /home/ec2-user/research/myscript.sh

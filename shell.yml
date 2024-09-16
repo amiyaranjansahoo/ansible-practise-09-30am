@@ -1,0 +1,11 @@
+- name: command module
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Understanding the command module
+      shell: uptime | cut -d" " -f4-5 | cut -d"," -f1
+      register: uptime_result
+    - name: Displaying the uptime result
+      debug: 
+        var: uptime_result.stdout 
